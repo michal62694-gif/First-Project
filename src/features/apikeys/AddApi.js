@@ -5,6 +5,7 @@ import { addApi } from "./ApiSlice";
 export const AddApi = ({ onClose }) => {
   const [apiName, setApiName] = useState("");
   const [apiAddress, setApiAddress] = useState(null);
+  const [apiKey, setApiKey] = useState(null);
   const [copied, setCopied] = useState(false); // מצב האם הועתק
   const dispatch = useDispatch();
 
@@ -19,19 +20,21 @@ export const AddApi = ({ onClose }) => {
     }
 
     const newApiAddress = `https://myapi.com/${apiName.toLowerCase().replace(/\s+/g, "-")}`;
+    const newApiKey = generateRandomKey();
     const newApi = {
       name: apiName,
-      key: generateRandomKey(),
+      key: newApiKey,
       apiAddress: newApiAddress,
       userId: 1,
     };
 
     dispatch(addApi(newApi));
     setApiAddress(newApiAddress);
+    setApiKey(newApiKey);
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(apiAddress)
+    navigator.clipboard.writeText(apiKey)
       .then(() => {
         setCopied(true);
       })
@@ -44,7 +47,10 @@ export const AddApi = ({ onClose }) => {
     return (
       <div style={modalStyle}>
         <h3>ה-API שלך נוצר בהצלחה!</h3>
-        <p>כתובת ה-API: <code>{apiAddress}</code></p>
+        <p>המפתח שלך:</p>
+        <div style={apiBoxStyle}>
+          {apiKey}
+        </div>
 
         <button onClick={copyToClipboard}>
           {copied ? "הועתק!" : "העתק כתובת"}
@@ -52,14 +58,14 @@ export const AddApi = ({ onClose }) => {
 
         {!copied && (
           <p style={{ color: "red", marginTop: "10px" }}>
-            חשוב! יש להעתיק את הכתובת כעת, אחרת היא תימחק לאחר סגירת החלון.
+            חשוב! יש להעתיק את המפתח כעת, אחרת הוא יימחק לאחר סגירת החלון.
           </p>
         )}
 
         <button 
           onClick={() => {
             if (!copied) {
-              alert("אנא העתקי את הכתובת לפני הסגירה!");
+              alert("אנא העתקי את המפתח לפני הסגירה!");
             } else {
               onClose();
             }
@@ -99,4 +105,17 @@ const modalStyle = {
   zIndex: 1000,
   borderRadius: "8px",
   minWidth: "300px",
+};
+
+const apiBoxStyle = {
+  backgroundColor: "#f5f5f5",
+  border: "2px solid #007bff",
+  borderRadius: "6px",
+  padding: "15px",
+  wordBreak: "break-all",
+  fontFamily: "monospace",
+  fontSize: "14px",
+  marginBottom: "15px",
+  userSelect: "all",
+    display: "flex",
 };
