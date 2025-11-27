@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateApi, deleteApi } from "./ApiSlice";
+import "./ApiStyles.css";
 
 export const ApiCard = ({ api }) => {
   const dispatch = useDispatch();
@@ -46,51 +47,21 @@ export const ApiCard = ({ api }) => {
   return (
     <>
       {/* כרטיס ה־API */}
-      <div
-        style={{
-          border: "1px solid #ccc",
-          marginBottom: "10px",
-          padding: "10px",
-          display: "flex",
-          flexDirection: "row",
-          gap: "5px"
-        }}
-      >
+      <div className="api-card">
         <h4>{api.name}</h4>
         <p>Key: {api.key}</p>
 
-        <div style={{ display: "flex", gap: "10px" }}>
+        <div className="api-card-buttons">
           <button onClick={openEditModal}>ערוך</button>
           <button onClick={() => navigate(`/api-details/${api.id}`)}>פרטי שימוש</button>
-          <button onClick={openDeleteModal}>מחק API</button>
+          <button onClick={openDeleteModal} className="delete-btn">מחק API keys </button>
         </div>
       </div>
 
       {/* חלון עריכה */}
       {isEditModalOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 2000,
-          }}
-        >
-          <div
-            style={{
-              background: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              width: "350px",
-              boxShadow: "0 0 10px rgba(0,0,0,0.3)",
-            }}
-          >
+        <div className="modal-overlay">
+          <div className="modal-content">
             <h3>עריכת API</h3>
 
             <label>שם API:</label>
@@ -99,20 +70,6 @@ export const ApiCard = ({ api }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-
-            {/* <label>Key:</label>
-            <input
-              style={{ width: "100%", marginBottom: "10px" }}
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
-            />
-
-            <label>כתובת API:</label>
-            <input
-              style={{ width: "100%", marginBottom: "10px" }}
-              value={apiAddress}
-              onChange={(e) => setApiAddress(e.target.value)}
-            /> */}
 
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <button onClick={closeEditModal} style={{ width: "45%" }}>
@@ -128,53 +85,23 @@ export const ApiCard = ({ api }) => {
 
       {/* חלון מחיקה */}
       {isDeleteModalOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            background: "rgba(0,0,0,0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 2000,
-          }}
-        >
-          <div
-            style={{
-              background: "white",
-              padding: "20px",
-              borderRadius: "8px",
-              width: "350px",
-              textAlign: "center",
-              boxShadow: "0 0 10px rgba(0,0,0,0.3)",
-            }}
-          >
+        <div className="modal-overlay">
+          <div className="modal-content" style={{ textAlign: "center" }}>
             <h3>אזהרה!</h3>
             <p>אתה עומד למחוק את ה־API הזה. פעולה זו בלתי הפיכה.</p>
 
             <p style={{ fontWeight: "bold" }}>Key:</p>
-            <div
-              style={{
-                border: "1px solid #ccc",
-                padding: "8px",
-                borderRadius: "5px",
-                background: "#f8f8f8",
-                wordBreak: "break-all",
-              }}
-            >
+            <div className="code-box">
               {api.key}
             </div>
 
-            <div style={{ marginTop: "20px", display: "flex", justifyContent: "space-between" }}>
-              <button onClick={closeDeleteModal} style={{ width: "45%" }}>
+            <div className="modal-buttons">
+              <button onClick={closeDeleteModal} className="cancel-btn">
                 ביטול
               </button>
               <button
                 onClick={deleteApiClick}
-                style={{ width: "45%", background: "red", color: "white" }}
+                className="delete-btn"
               >
                 מחק
               </button>

@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
       <nav style={{ marginBottom: "20px" }}>
-        <Link to="/api-keys" style={{ marginRight: "10px" }}>רשימת API</Link>
+        <Link to="/api-keys" style={{ marginRight: "10px" }}>רשימת API keys</Link>
         {/* <Link to="/add-api">צור API חדשה</Link> */}
       </nav>
       <Routes>

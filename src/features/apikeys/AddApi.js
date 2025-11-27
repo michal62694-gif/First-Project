@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addApi } from "./ApiSlice";
+import "./ApiStyles.css";
 
 export const AddApi = ({ onClose }) => {
   const [apiName, setApiName] = useState("");
@@ -45,50 +46,55 @@ export const AddApi = ({ onClose }) => {
 
   if (apiAddress) {
     return (
-      <div style={modalStyle}>
-        <h3>ה-API שלך נוצר בהצלחה!</h3>
-        <p>המפתח שלך:</p>
-        <div style={apiBoxStyle}>
-          {apiKey}
+      <div className="modal-overlay">
+        <div className="modal-content">
+          <h3>ה-API שלך נוצר בהצלחה!</h3>
+          <p>המפתח שלך:</p>
+          <div style={apiBoxStyle}>
+            {apiKey}
+          </div>
+
+          <button onClick={copyToClipboard}>
+            {copied ? "הועתק!" : "העתק מפתח"}
+          </button>
+
+          {!copied && (
+            <p style={{ color: "red", marginTop: "10px" }}>
+              חשוב! יש להעתיק את המפתח כעת, אחרת הוא יימחק לאחר סגירת החלון.
+            </p>
+          )}
+
+          <button 
+            onClick={() => {
+              if (!copied) {
+                alert("אנא העתקי את המפתח לפני הסגירה!");
+              } else {
+                onClose();
+              }
+            }} 
+            style={{ marginTop: "10px", width: "100%" }}
+            className="back-btn"
+          >
+            סגור
+          </button>
         </div>
-
-        <button onClick={copyToClipboard}>
-          {copied ? "הועתק!" : "העתק כתובת"}
-        </button>
-
-        {!copied && (
-          <p style={{ color: "red", marginTop: "10px" }}>
-            חשוב! יש להעתיק את המפתח כעת, אחרת הוא יימחק לאחר סגירת החלון.
-          </p>
-        )}
-
-        <button 
-          onClick={() => {
-            if (!copied) {
-              alert("אנא העתקי את המפתח לפני הסגירה!");
-            } else {
-              onClose();
-            }
-          }} 
-          style={{ marginTop: "10px" }}
-        >
-          סגור
-        </button>
       </div>
     );
   }
 
   return (
-    <div style={modalStyle}>
-      <h3>צור API חדשה</h3>
-      <input
-        placeholder="הכנס שם API"
-        value={apiName}
-        onChange={(e) => setApiName(e.target.value)}
-      />
-      <div style={{ marginTop: "10px" }}>
-        <button onClick={handleCreate}>המשך</button>
-        <button onClick={onClose} style={{ marginLeft: "10px" }}>בטל</button>
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <h3>צור API חדשה</h3>
+        <input
+          placeholder="הכנס שם API"
+          value={apiName}
+          onChange={(e) => setApiName(e.target.value)}
+        />
+        <div className="modal-buttons" style={{ marginTop: "20px" }}>
+          <button onClick={handleCreate}>המשך</button>
+          <button onClick={onClose} className="cancel-btn">בטל</button>
+        </div>
       </div>
     </div>
   );

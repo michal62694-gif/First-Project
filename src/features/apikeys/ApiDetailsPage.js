@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import "./ApiStyles.css";
 
 export const ApiDetailsPage = () => {
   const { apiId } = useParams();
@@ -11,9 +12,9 @@ export const ApiDetailsPage = () => {
 
   if (!api) {
     return (
-      <div style={{ padding: "20px", textAlign: "center" }}>
+      <div className="page-container" style={{ textAlign: "center" }}>
         <h2>API לא נמצאה</h2>
-        <button onClick={() => navigate(-1)}>חזור</button>
+        <button className="back-btn" onClick={() => navigate(-1)}>← חזור</button>
       </div>
     );
   }
@@ -24,8 +25,8 @@ export const ApiDetailsPage = () => {
   );
 
   return (
-    <div style={{ padding: "20px", maxWidth: "900px", margin: "0 auto" }}>
-      <button onClick={() => navigate(-1)} style={{ marginBottom: "20px" }}>
+    <div className="page-container">
+      <button className="back-btn" onClick={() => navigate(-1)} style={{ marginBottom: "20px" }}>
         ← חזור
       </button>
 
@@ -38,19 +39,7 @@ export const ApiDetailsPage = () => {
         <h2>שימוש השבועי</h2>
 
         {/* גרף עמודות */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "space-around",
-            height: "300px",
-            border: "1px solid #ccc",
-            padding: "20px",
-            borderRadius: "8px",
-            backgroundColor: "#f9f9f9",
-            gap: "15px",
-          }}
-        >
+        <div className="chart-container">
           {api.useDitails.map((day, index) => {
             const percentage = (day.tokensUsed / maxTokens) * 100;
             return (
@@ -100,13 +89,7 @@ export const ApiDetailsPage = () => {
         {/* טבלה עם פרטים */}
         <div style={{ marginTop: "30px" }}>
           <h3>טבלת פרטים</h3>
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              border: "1px solid #ccc",
-            }}
-          >
+          <table>
             <thead>
               <tr style={{ backgroundColor: "#f0f0f0" }}>
                 <th style={{ border: "1px solid #ccc", padding: "10px" }}>
@@ -133,15 +116,7 @@ export const ApiDetailsPage = () => {
         </div>
 
         {/* סיכום */}
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "15px",
-            backgroundColor: "#e3f2fd",
-            borderRadius: "8px",
-            border: "1px solid #2196F3",
-          }}
-        >
+        <div className="summary-card">
           <h3>סיכום שבועי</h3>
           <p>
             <strong>סה"כ שימוש:</strong>{" "}

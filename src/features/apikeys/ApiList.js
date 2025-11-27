@@ -9,7 +9,7 @@ export const ApiList = () => {
 
   return (
     <div>
-      <button onClick={() => setShowAddApi(true)}>צור API חדשה</button>
+      <button onClick={() => setShowAddApi(true)}>צור API keys</button>
 
       {apiList.map(api => (
         <ApiCard key={api.id} api={api} />
