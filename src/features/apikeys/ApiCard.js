@@ -31,7 +31,14 @@ export const ApiCard = ({ api }) => {
       return;
     }
 
-    dispatch(updateApi({ id: api.id, name, key, apiAddress, userId: api.userId }));
+    dispatch(updateApi({ 
+      id: api.id, 
+      name, 
+      key, 
+      apiAddress, 
+      userId: api.userId,
+      useDitails: api.useDitails
+    }));
     setIsEditModalOpen(false);
   };
 

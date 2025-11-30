@@ -76,7 +76,15 @@ export const apiSlice = createSlice({
         updateApi: (state, action) => {
             const updatedApi = action.payload;
             const index = state.api.findIndex(p => p.id === updatedApi.id);
-            state.api[index] = {...updatedApi};
+            if (index !== -1) {
+                // שמור את useDitails אם לא נשלח בעדכון
+                const existingUseDitails = state.api[index].useDitails;
+                state.api[index] = {
+                    ...state.api[index],
+                    ...updatedApi,
+                    useDitails: updatedApi.useDitails || existingUseDitails
+                };
+            }
         },
         deleteApi: (state, action) => {
             const id = action.payload;
@@ -119,10 +127,17 @@ export const apiSlice = createSlice({
                 }
             }
         },
+        updateDayTokens: (state, action) => {
+            const { apiId, dayIndex, tokensUsed } = action.payload;
+            const api = state.api.find(p => p.id === apiId);
+            if (api && api.useDitails && api.useDitails[dayIndex]) {
+                api.useDitails[dayIndex].tokensUsed = tokensUsed;
+            }
+        },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { apiArrived, addApi, updateApi, deleteApi, changeCurrentApi, resetWeeklyUsage, resetAllWeeklyUsage, incrementDayUsage } = apiSlice.actions
+export const { apiArrived, addApi, updateApi, deleteApi, changeCurrentApi, resetWeeklyUsage, resetAllWeeklyUsage, incrementDayUsage, updateDayTokens } = apiSlice.actions
 
 export default apiSlice.reducer

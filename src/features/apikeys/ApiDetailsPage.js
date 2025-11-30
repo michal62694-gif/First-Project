@@ -21,7 +21,7 @@ export const ApiDetailsPage = () => {
 
   const maxTokens = Math.max(
     ...api.useDitails.map((day) => day.tokensUsed),
-    100
+    1
   );
 
   return (
@@ -42,6 +42,7 @@ export const ApiDetailsPage = () => {
         <div className="chart-container">
           {api.useDitails.map((day, index) => {
             const percentage = (day.tokensUsed / maxTokens) * 100;
+            const barHeight = Math.max(percentage, 5); // לפחות 5px לכל עמודה
             return (
               <div
                 key={index}
@@ -49,8 +50,10 @@ export const ApiDetailsPage = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                  justifyContent: "flex-end",
                   gap: "10px",
                   flex: 1,
+                  height: "100%",
                 }}
               >
                 {/* עמודה */}
@@ -58,10 +61,9 @@ export const ApiDetailsPage = () => {
                   style={{
                     width: "100%",
                     backgroundColor: "#007bff",
-                    height: `${percentage}%`,
+                    height: `${barHeight}%`,
                     borderRadius: "4px",
-                    transition: "background-color 0.3s",
-                    minHeight: "10px",
+                    transition: "all 0.3s ease",
                   }}
                   onMouseEnter={(e) =>
                     (e.target.style.backgroundColor = "#0056b3")
